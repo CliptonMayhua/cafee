@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop - Inicio</title>
+    
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Oswald for bold text, Great Vibes for cursive, Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom Theme Colors */
+        :root {
+            --bg-dark: #3a261d;
+            --bg-nav: #2a1b14;
+            --text-gold: #d4af37;
+            --text-gold-hover: #f1c40f;
+            --text-light: #e5e5e5;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        .font-cursive {
+            font-family: 'Great Vibes', cursive;
+        }
+        .font-display {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        /* Utility classes for colors */
+        .text-gold { color: var(--text-gold); }
+        .bg-gold { background-color: var(--text-gold); }
+        .hover-text-gold:hover { color: var(--text-gold-hover); transition: color 0.3s ease; }
+        .border-gold { border-color: var(--text-gold); }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--text-gold);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: var(--text-gold);
+        }
+
+        /* Decorative Logo Lines */
+        .logo-decorator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .logo-line {
+            height: 1px;
+            width: 40px;
+            background-color: var(--text-light);
+        }
+
+        /* View transition */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Image styling to look like the top-down coffee cup */
+        .hero-cup {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: url('https://images.unsplash.com/photo-1572119865084-43c285814d63?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover;
+            box-shadow: -20px 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.5);
+            border: 15px solid #fff;
+        }
+        .hero-cup-saucer {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            box-shadow: -15px 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* CSS Coffee Beans for decoration */
+        .bean {
+            position: absolute;
+            width: 25px;
+            height: 35px;
+            background-color: #4a2f1d;
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.6), 2px 2px 4px rgba(0,0,0,0.4);
+        }
+        .bean::after {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 45%;
+            width: 2px;
+            height: 90%;
+            background-color: #2a1b14;
+            border-radius: 50%;
+            transform: rotate(5deg);
+        }
+
+        /* Background decorative circles */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            z-index: -2;
+        }
+        
+        /* Product Card */
+        .product-card {
+            background-color: #2a1b14;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--text-gold);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- Background Decorations -->
+    <div class="bg-circle" style="width: 600px; height: 600px; top: -100px; right: -100px;"></div>
+    <div class="bg-circle" style="width: 400px; height: 400px; top: 50px; right: 50px;"></div>
+    <div class="bg-circle" style="width: 800px; height: 800px; bottom: -200px; left: -200px;"></div>
+
+    <!-- Header / Navbar -->
+    <header class="w-full" style="background-color: var(--bg-nav); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="container mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between">
+            
+            <!-- Left Links -->
+            <nav class="flex gap-6 mb-4 md:mb-0">
+                <a onclick="navigate('inicio')" id="nav-inicio" class="nav-link active">Inicio</a>
+                <a onclick="navigate('productos')" id="nav-productos" class="nav-link">Productos</a>
+            </nav>
+
+            <!-- Center Logo -->
+            <div class="flex flex-col items-center cursor-pointer" onclick="navigate('inicio')">
+                <div class="logo-decorator mb-1">
+                    <span class="logo-line"></span>
+                    <i class="fa-solid fa-mug-hot text-gold text-xl"></i>
+                    <span class="logo-line"></span>
+                </div>
+                <div class="border-y border-white py-1 px-4 mt-1 flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-white"></div>
+                    <h1 class="font-display tracking-widest text-xl text-white">COFFEE</h1>
+                    <div class="w-2 h-2 rounded-full bg-white"></div>
+                </div>
+            </div>
+
+            <!-- Right Links & Socials -->
+            <nav class="flex items-center gap-6 mt-4 md:mt-0">
+                <a onclick="navigate('blog')" id="nav-blog" class="nav-link">Blog</a>
+                <a onclick="navigate('contactar')" id="nav-contactar" class="nav-link">Contactar</a>
+                
+                <div class="flex gap-3 ml-4 border-l border-gray-600 pl-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-6 py-12 relative">
+
+        <!-- INICIO PAGE -->
+        <section id="page-inicio" class="page-section active w-full min-h-[70vh] flex flex-col lg:flex-row items-center justify-center gap-16">
+            
+            <!-- Left Side: Coffee Cup Image -->
+            <div class="relative w-full lg:w-1/2 flex justify-center lg:justify-end pr-0 lg:pr-12">
+                <div class="relative mt-12 lg:mt-0">
+                    <div class="hero-cup-saucer"></div>
+                    <div class="hero-cup"></div>
+                    
+                    <!-- Decorative Beans scattered around -->
+                    <div class="bean" style="top: -40px; right: 20%; transform: rotate(45deg);"></div>
+                    <div class="bean" style="top: 20%; left: -60px; transform: rotate(15deg);"></div>
+                    <div class="bean" style="bottom: -30px; right: 10%; transform: rotate(110deg);"></div>
+                    <div class="bean" style="bottom: 10%; left: -40px; transform: rotate(-20deg);"></div>
+                </div>
+            </div>
+
+            <!-- Right Side: Text & Sizes -->
+            <div class="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
+                
+                <!-- Main Title -->
+                <div class="relative mb-6">
+                    <h2 class="font-display text-7xl md:text-9xl text-white tracking-tighter leading-none" style="text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">COFFEE</h2>
+                    <h3 class="font-cursive text-gold text-6xl md:text-8xl absolute top-1/2 left-1/2 lg:left-3/4 transform -translate-x-1/2 -translate-y-1/4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Shop</h3>
+                </div>
+
+                <!-- Description -->
+                <p class="text-gray-300 max-w-md mt-8 mb-8 text-sm md:text-base leading-relaxed">
+                    Descubre el verdadero sabor del café artesanal. Seleccionamos los mejores granos para ofrecerte una experiencia única en cada taza. Disfruta de nuestro ambiente acogedor o pide para llevar.
+                </p>
+
+                <!-- Sizes -->
+                <div class="w-full max-w-md">
+                    <h4 class="font-cursive text-3xl text-white mb-4">Tamaños de Café:</h4>
+                    <div class="flex justify-between items-end border-t border-gray-600 pt-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-mug-hot text-gray-400" style="font-size: 1rem;"></i>
+                            <span class="text-sm">Talla S</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-mug-hot text-gray-300" style="font-size: 1.5rem;"></i>
+                            <span class="text-sm">Talla M</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-mug-hot text-white" style="font-size: 2rem;"></i>
+                            <span class="text-sm text-gold">Talla L</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="navigate('productos')" class="mt-10 px-8 py-3 bg-transparent border-2 border-gold text-gold font-bold uppercase tracking-wider hover:bg-gold hover:text-black transition duration-300 rounded-full">
+                    Ver Menú
+                </button>
+            </div>
+        </section>
+
+        <!-- PRODUCTOS PAGE -->
+        <section id="page-productos" class="page-section w-full">
+            <div class="text-center mb-12">
+                <h2 class="font-cursive text-gold text-5xl mb-2">Nuestro Menú</h2>
+                <h3 class="font-display text-4xl text-white uppercase tracking-widest">Productos</h3>
+                <div class="w-24 h-1 bg-gold mx-auto mt-4 rounded"></div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Product 1 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Espresso" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Espresso Clásico</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Un shot intenso y concentrado de nuestro mejor café de especialidad.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 8.00</div>
+                    <button onclick="buyProduct('Espresso Clásico', 8.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Americano" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Café Americano</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Espresso diluido en agua caliente, perfecto para empezar la mañana.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 10.00</div>
+                    <button onclick="buyProduct('Café Americano', 10.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Cappuccino" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Cappuccino</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Partes iguales de espresso, leche vaporizada y una deliciosa capa de espuma.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 14.00</div>
+                    <button onclick="buyProduct('Cappuccino', 14.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1576203328174-a6305a2e5888?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Mocha" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Café Mocha</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">La combinación perfecta de espresso, chocolate caliente y leche vaporizada.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 16.00</div>
+                    <button onclick="buyProduct('Café Mocha', 16.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Latte" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Latte Macchiato</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Abundante leche vaporizada manchada con un toque suave de espresso.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 15.00</div>
+                    <button onclick="buyProduct('Latte Macchiato', 15.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <img src="https://images.unsplash.com/photo-1558770147-d2c3f87b642f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Frappuccino" class="w-32 h-32 object-cover rounded-full border-4 border-gold mb-4 shadow-lg">
+                    <h4 class="text-xl font-bold text-white mb-2">Frappuccino Vainilla</h4>
+                    <p class="text-gray-400 text-sm mb-4 flex-grow">Bebida fría mezclada con hielo, café, leche y jarabe de vainilla, coronada con crema.</p>
+                    <div class="text-gold font-display text-2xl mb-4">S/ 18.00</div>
+                    <button onclick="buyProduct('Frappuccino Vainilla', 18.00)" class="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Comprar
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BLOG PAGE -->
+        <section id="page-blog" class="page-section w-full max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-cursive text-gold text-5xl mb-2">Historias & Noticias</h2>
+                <h3 class="font-display text-4xl text-white uppercase tracking-widest">Nuestro Blog</h3>
+                <div class="w-24 h-1 bg-gold mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Blog Post 1 -->
+                <article class="bg-[#2a1b14] rounded-xl overflow-hidden shadow-2xl border border-gray-800 hover:border-gold transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Blog 1" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <p class="text-gold text-sm font-bold mb-2">TIPS & TRUCOS • 12 Octubre</p>
+                        <h4 class="text-2xl font-bold text-white mb-3 hover:text-gold cursor-pointer transition">Cómo preparar el café perfecto en casa</h4>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">Descubre los secretos de nuestros baristas para lograr una extracción perfecta utilizando métodos manuales como la prensa francesa o la V60.</p>
+                        <a href="#" class="text-gold uppercase text-sm font-bold tracking-wider hover:text-white transition">Leer más <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="bg-[#2a1b14] rounded-xl overflow-hidden shadow-2xl border border-gray-800 hover:border-gold transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1524350876685-274059332603?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Blog 2" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <p class="text-gold text-sm font-bold mb-2">ORIGEN • 05 Octubre</p>
+                        <h4 class="text-2xl font-bold text-white mb-3 hover:text-gold cursor-pointer transition">El viaje del grano: De la finca a tu taza</h4>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">Acompáñanos a conocer a las familias agricultoras con las que trabajamos y el proceso de selección que garantiza la calidad de nuestro café.</p>
+                        <a href="#" class="text-gold uppercase text-sm font-bold tracking-wider hover:text-white transition">Leer más <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CONTACTAR PAGE -->
+        <section id="page-contactar" class="page-section w-full max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-cursive text-gold text-5xl mb-2">Ponte en contacto</h2>
+                <h3 class="font-display text-4xl text-white uppercase tracking-widest">Contactar</h3>
+                <div class="w-24 h-1 bg-gold mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="bg-[#2a1b14] rounded-2xl p-8 md:p-12 shadow-2xl border border-gray-800 flex flex-col md:flex-row gap-12">
+                
+                <!-- Contact Info -->
+                <div class="w-full md:w-1/2">
+                    <h4 class="text-2xl font-bold text-white mb-6">Información de la Tienda</h4>
+                    
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-gold bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-location-dot text-gold"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">Dirección</h5>
+                            <p class="text-gray-400 text-sm">Av. El Sol 1234, Centro Histórico<br>Arequipa, Perú</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-gold bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-phone text-gold"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">Teléfono / WhatsApp</h5>
+                            <p class="text-gray-400 text-sm">+51 974372574</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 mb-8">
+                        <div class="w-10 h-10 rounded-full bg-gold bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-envelope text-gold"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold">Email</h5>
+                            <p class="text-gray-400 text-sm">hola@coffeeshop.com</p>
+                        </div>
+                    </div>
+
+                    <h4 class="text-xl font-bold text-white mb-4">Horario de Atención</h4>
+                    <p class="text-gray-400 text-sm"><strong class="text-white">Lunes a Viernes:</strong> 7:00 AM - 9:00 PM</p>
+                    <p class="text-gray-400 text-sm mt-1"><strong class="text-white">Sábados y Domingos:</strong> 8:00 AM - 10:00 PM</p>
+                </div>
+
+                <!-- Quick Message / Direct WhatsApp -->
+                <div class="w-full md:w-1/2 flex flex-col justify-center">
+                    <div class="bg-[#3a261d] p-6 rounded-xl border border-gray-700 text-center">
+                        <i class="fa-brands fa-whatsapp text-6xl text-green-500 mb-4"></i>
+                        <h4 class="text-xl font-bold text-white mb-2">¡Escríbenos directamente!</h4>
+                        <p class="text-gray-400 text-sm mb-6">Para pedidos, reservas o consultas rápidas, la forma más fácil es enviarnos un mensaje por WhatsApp.</p>
+                        
+                        <button onclick="openGenericWhatsApp()" class="w-full py-3 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold uppercase tracking-wider transition shadow-lg">
+                            Abrir WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a110c] border-t border-gray-800 py-6 mt-12">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 COFFEE Shop. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // WhatsApp Number provided
+        const WA_NUMBER = "51974372574"; 
+
+        /**
+         * Navigation logic for Single Page Application feel
+         * @param {string} targetId - The id suffix of the page to show
+         */
+        function navigate(targetId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active class from nav links
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById('page-' + targetId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Set active class on target nav link
+            const targetLink = document.getElementById('nav-' + targetId);
+            if (targetLink) {
+                targetLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * Opens WhatsApp with a pre-filled message to buy a specific product
+         * @param {string} productName 
+         * @param {number} price 
+         */
+        function buyProduct(productName, price) {
+            // Format price to 2 decimal places
+            const formattedPrice = price.toFixed(2);
+            // Create the message URL encoded
+            const message = encodeURIComponent(`Hola, me gustaría comprar el siguiente producto: ${productName} (S/ ${formattedPrice}). ¿Me podrían confirmar disponibilidad?`);
+            // Open WhatsApp link in new tab
+            const waLink = `https://wa.me/${WA_NUMBER}?text=${message}`;
+            window.open(waLink, '_blank');
+        }
+
+        /**
+         * Opens WhatsApp for generic contact
+         */
+        function openGenericWhatsApp() {
+            const message = encodeURIComponent(`Hola Coffee Shop, me comunico para hacer una consulta.`);
+            const waLink = `https://wa.me/${WA_NUMBER}?text=${message}`;
+            window.open(waLink, '_blank');
+        }
+    </script>
+</body>
+</html>
